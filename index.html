@@ -231,10 +231,8 @@ body{
 
 
 <div class="coin-area">
-
-<div class="ring"></div>
-
 <div class="coin" id="coin">
+  <div class="ring"></div>
 P
 </div>
 
@@ -303,69 +301,128 @@ Profile
 
 <script>
 
-let points=0;
-let energy=100;
+let points = 0;
+let energy = 100;
+
+const coin = document.getElementById("coin");
+const pointText = document.getElementById("points");
+const energyText = document.getElementById("energyText");
+const energyBar = document.getElementById("energyBar");
 
 
-const coin=document.getElementById("coin");
-const pointText=document.getElementById("points");
-const energyText=document.getElementById("energy");
-const fill=document.getElementById("fill");
+function update(){
+
+    pointText.innerHTML = points;
+
+    energyText.innerHTML =
+        energy + " / 100";
+
+    energyBar.style.width =
+        energy + "%";
+}
 
 
-coin.onclick=()=>{
 
-if(energy<=0)return;
-
-
-points++;
-energy--;
+coin.onclick = function(){
 
 
-pointText.innerHTML=points;
-
-energyText.innerHTML=
-energy+" / 100";
-
-
-fill.style.width=
-energy+"%";
+    if(energy <= 0){
+        return;
+    }
 
 
-// حركة احترافية
+    points = points + 1;
 
-coin.style.transform=
-"scale(.90) rotate(3deg)";
+    energy = energy - 1;
 
-setTimeout(()=>{
-coin.style.transform=
-"scale(1) rotate(0)";
-},180);
 
+    update();
+
+
+
+    coin.style.transform =
+    "scale(.90) rotate(3deg)";
+
+
+    setTimeout(()=>{
+
+        coin.style.transform =
+        "scale(1) rotate(0)";
+
+    },180);
 
 };
 
 
-// تجديد الطاقة
+
+// تعبئة الطاقة
 
 setInterval(()=>{
 
-if(energy<100){
+    if(energy < 100){
 
-energy++;
+        energy++;
 
-energyText.innerHTML=
-energy+" / 100";
+        update();
 
-fill.style.width=
-energy+"%";
+    }
 
-}
-
-},28000);
+},20000);
 
 
 </script>
 
 </body>
 </html>
+
+<style>
+
+.energy-hit{
+
+    animation: energyLoss 0.35s ease;
+
+}
+
+
+
+@keyframes energyLoss{
+
+    0%{
+
+        transform:scaleX(1);
+
+        filter:brightness(1);
+
+    }
+
+
+    40%{
+
+        transform:scaleX(0.85);
+
+        filter:brightness(2);
+
+    }
+
+
+    70%{
+
+        transform:scaleX(1.05);
+
+        filter:brightness(1.5);
+
+    }
+
+
+    100%{
+
+        transform:scaleX(1);
+
+        filter:brightness(1);
+
+    }
+
+}
+
+
+</style>
