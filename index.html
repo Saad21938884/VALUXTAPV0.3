@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Play Point</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#020b22;
+    color:white;
+    height:100vh;
+    overflow:hidden;
+}
+
+.container{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+/* Header */
+
+.header{
+    width:92%;
+    margin-top:20px;
+    padding:18px;
+    border-radius:30px;
+    background:#081b3d;
+    border:1px solid #233b69;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 0 25px #000;
+}
+
+.logo{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle,#ffe36b,#d88900);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:40px;
+    font-weight:bold;
+    color:white;
+    box-shadow:0 0 35px #ffbf00;
+}
+
+.title{
+    flex:1;
+    margin-left:20px;
+}
+
+.title h1{
+    margin:0;
+    font-size:34px;
+}
+
+.title span{
+    color:#aaa;
+}
+
+.coins{
+    background:#102653;
+    padding:15px 25px;
+    border-radius:40px;
+    font-size:28px;
+    color:#ffd52a;
+}
+
+
+/* Level */
+
+.level{
+    margin-top:35px;
+    font-size:50px;
+    font-weight:bold;
+}
+
+
+/* Coin */
+
+.coin-area{
+    margin-top:40px;
+    position:relative;
+}
+
+.coin{
+    width:290px;
+    height:290px;
+    border-radius:50%;
+    background:
+    radial-gradient(circle at 30% 25%,
+    #fff4a0,
+    #ffc400 45%,
+    #d77b00);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:100px;
+    font-weight:bold;
+
+    box-shadow:
+    0 0 35px #ffcc00,
+    inset 0 0 30px #fff;
+
+    transition:.18s cubic-bezier(.2,1.4,.5,1);
+}
+
+.coin:active{
+    transform:scale(.91) rotate(2deg);
+}
+
+
+.ring{
+    position:absolute;
+    width:330px;
+    height:330px;
+    border-radius:50%;
+    border:2px solid rgba(255,200,0,.4);
+    left:-20px;
+    top:-20px;
+    animation:pulse 3s infinite;
+}
+
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.05);
+        opacity:.4;
+    }
+}
+
+
+/* Energy */
+
+.energy{
+    width:90%;
+    margin-top:35px;
+    background:#081b3d;
+    padding:20px;
+    border-radius:30px;
+}
+
+.energy-title{
+    display:flex;
+    justify-content:space-between;
+    font-size:28px;
+}
+
+.bar{
+    height:18px;
+    margin-top:15px;
+    background:#061127;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.fill{
+    height:100%;
+    width:100%;
+    background:#00ed65;
+    transition:.3s;
+}
+
+
+/* Menu */
+
+.menu{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    background:#061633;
+    padding:18px 5px;
+    display:flex;
+    justify-content:space-around;
+    border-radius:35px 35px 0 0;
+}
+
+.item{
+    text-align:center;
+    color:#aebbd8;
+    font-size:15px;
+}
+
+.item span{
+    display:block;
+    font-size:30px;
+}
+
+.active{
+    color:#ffd52a;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<div class="header">
+
+<div class="logo">P</div>
+
+<div class="title">
+<h1>Play Point</h1>
+<span>ID : 0</span>
+</div>
+
+<div class="coins">
+<span id="points">0</span> 🪙
+</div>
+
+</div>
+
+
+
+<div class="coin-area">
+
+<div class="ring"></div>
+
+<div class="coin" id="coin">
+P
+</div>
+
+</div>
+
+
+
+<div class="energy">
+
+<div class="energy-top">
+<span>⚡ Energy</span>
+<span id="energyText">100 / 100</span>
+</div>
+
+<div class="bar">
+<div class="fill" id="energyBar"></div>
+</div>
+
+</div>
+
+
+<div class="level">
+Level 1
+</div>
+
+
+
+<div class="menu">
+
+<div class="item active">
+<span>🏠</span>
+Home
+</div>
+
+<div class="item">
+<span>📋</span>
+Tasks
+</div>
+
+<div class="item">
+<span>🎁</span>
+Reward
+</div>
+
+<div class="item">
+<span>🛒</span>
+Shop
+</div>
+
+<div class="item">
+<span>👥</span>
+Friends
+</div>
+
+<div class="item">
+<span>👤</span>
+Profile
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<script>
+
+let points=0;
+let energy=100;
+
+
+const coin=document.getElementById("coin");
+const pointText=document.getElementById("points");
+const energyText=document.getElementById("energy");
+const fill=document.getElementById("fill");
+
+
+coin.onclick=()=>{
+
+if(energy<=0)return;
+
+
+points++;
+energy--;
+
+
+pointText.innerHTML=points;
+
+energyText.innerHTML=
+energy+" / 100";
+
+
+fill.style.width=
+energy+"%";
+
+
+// حركة احترافية
+
+coin.style.transform=
+"scale(.90) rotate(3deg)";
+
+setTimeout(()=>{
+coin.style.transform=
+"scale(1) rotate(0)";
+},180);
+
+
+};
+
+
+// تجديد الطاقة
+
+setInterval(()=>{
+
+if(energy<100){
+
+energy++;
+
+energyText.innerHTML=
+energy+" / 100";
+
+fill.style.width=
+energy+"%";
+
+}
+
+},28000);
+
+
+</script>
+
+</body>
+</html>
