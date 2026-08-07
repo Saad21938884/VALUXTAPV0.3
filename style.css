@@ -138,3 +138,99 @@
     }
 
 }
+
+/* حركة نقص الطاقة */
+
+.energy-hit{
+
+    animation: energyFlash 0.4s ease;
+
+}
+
+
+@keyframes energyFlash{
+
+    0%{
+        transform: scaleY(1);
+        filter: brightness(1);
+    }
+
+    40%{
+        transform: scaleY(0.5);
+        filter: brightness(2.5);
+    }
+
+    70%{
+        transform: scaleY(1.1);
+        filter: brightness(1.5);
+    }
+
+    100%{
+        transform: scaleY(1);
+        filter: brightness(1);
+    }
+
+}
+
+
+
+/* حركة الضغط على الكرة */
+
+.tap-effect{
+
+    transform:scale(.92);
+
+}
+
+#energyBar{
+    transition: width .4s ease;
+}
+
+
+.damage{
+
+    animation: energyLoss .4s ease;
+
+}
+
+
+@keyframes energyLoss{
+
+    0%{
+        transform:scaleX(1);
+        filter:brightness(1);
+    }
+
+
+    50%{
+        transform:scaleX(.92);
+        filter:brightness(2);
+    }
+
+
+    100%{
+        transform:scaleX(1);
+        filter:brightness(1);
+    }
+
+}
+
+.energy-recharge{
+    animation: recharge 0.5s ease;
+}
+
+@keyframes recharge{
+
+    0%{
+        filter:brightness(1);
+    }
+
+    50%{
+        filter:brightness(2);
+    }
+
+    100%{
+        filter:brightness(1);
+    }
+
+}
