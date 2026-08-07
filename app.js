@@ -1,67 +1,106 @@
-// Play Point - Main Controller
-
 let points = 0;
-let energy = 100;
+let energy = 105;
+
+const maxEnergy = 105;
 
 const coin = document.getElementById("coin");
-const pointsText = document.getElementById("points");
+const pointText = document.getElementById("points");
 const energyText = document.getElementById("energyText");
 const energyBar = document.getElementById("energyBar");
 
 
-// عند تحميل الصفحة
-function updateUI() {
+function update(){
 
-    if (pointsText) {
-        pointsText.innerHTML = points;
-    }
+    pointText.innerHTML = points;
 
-    if (energyText) {
-        energyText.innerHTML = energy + " / 100";
-    }
+    energyText.innerHTML =
+        energy + 100 / 100 + maxEnergy;
 
-    if (energyBar) {
-        energyBar.style.width = energy + "%";
-    }
+    energyBar.style.width =
+        energy + "%";
 
 }
 
 
-// الضغط على الكرة الذهبية
-if (coin) {
 
-    coin.addEventListener("click", function () {
+// الضغط على الكرة
 
-        // لا يوجد طاقة
-        if (energy <= 0) {
-            return;
-        }
+function tap(){
 
-
-        // إضافة نقطة
-        points += 1;
+    if(energy <= 0){
+        return;
+    }
 
 
-        // خصم طاقة
-        energy -= 1;
+    // 100 طاقة = 100 نقطة
+    points++;
+    energy--;
 
 
-        // تحديث البيانات
-        updateUI();
+    update();
 
 
-        // حركة الكرة الاحترافية
-        coin.classList.remove("tap");
+    // أنيميشن الكرة
 
-        void coin.offsetWidth;
+    coin.style.transform="scale(.90)";
 
-        coin.classList.add("tap");
+    setTimeout(()=>{
 
+        coin.style.transform="scale(1)";
 
-    });
-
-}
+    },120);
 
 
-// تشغيل أولي
-updateUI();
+
+    // أنيميشن نقصان الطاقة// أنيميشن نقصان الطاقة
+
+bar.classList.remove("energy-hit");
+
+void bar.offsetWidth;
+
+bar.classList.add("energy-hit");
+
+
+setTimeout(()=>{
+
+    bar.classList.remove("energy-hit");
+
+},400);
+
+
+
+coin.addEventListener("click",tap);
+
+
+coin.addEventListener("touchstart",(e)=>{
+
+    e.preventDefault();
+
+    tap();
+
+});
+
+
+
+// إعادة شحن الطاقة فقط بعد نفادها
+
+setInterval(()=>{
+
+
+    if(energy <= 0 && energy < maxEnergy){
+
+
+        energy++;
+
+
+        update();
+
+
+    }
+
+
+},20000);
+
+
+
+update();
